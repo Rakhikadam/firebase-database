@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1029326884973",
+    "project_id": "fir-databaseex-c69b8",
+    "storage_bucket": "fir-databaseex-c69b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029326884973:android:6be04769b45b2cfa2f6f64",
+        "android_client_info": {
+          "package_name": "com.Firebase_databaseEx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029326884973-h7ls64p9onbuj9tqujscn7par69sufn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAswm9b5EKXQ3VG5BC9btVPQfpv1cAsabo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029326884973-h7ls64p9onbuj9tqujscn7par69sufn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
