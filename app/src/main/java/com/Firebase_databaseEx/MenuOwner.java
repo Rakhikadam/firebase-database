@@ -111,7 +111,7 @@ public class MenuOwner extends Fragment {
                 Menu.put("name", menuname.getText().toString());    //put data with values and key
                 Menu.put("price", menuprice.getText().toString());
                 Menu.put("image", menuimage.getText().toString());
-                Menu.put("hotel_id", preferences.getString("hotel_id", ""));
+                Menu.put("hotel_id", preferences.getString("hotel_id", "")); //getting hotel_id by sharedprefernce
                 Menu.put("time",timestamp);
                 //add data in this addOnSuccessListener
                 db.collection("Menu").add(Menu).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

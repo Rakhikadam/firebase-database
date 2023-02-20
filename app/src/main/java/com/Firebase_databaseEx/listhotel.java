@@ -1,19 +1,14 @@
 package com.Firebase_databaseEx;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public class hotellist {
+public class listhotel {
     String name;
     String offer;
     String image;
-    String hotel_id;
 
-    public hotellist(String name, String offer, String image, String hotel_id) {
+    public listhotel(String name, String offer, String image) {
         this.name = name;
         this.offer = offer;
         this.image = image;
-        this.hotel_id = hotel_id;
     }
 
     public String getName() {
@@ -38,13 +33,5 @@ public class hotellist {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getHotel_id() {
-        return hotel_id;
-    }
-
-    public void setHotel_id(String hotel_id) {
-        this.hotel_id = hotel_id;
     }
 }

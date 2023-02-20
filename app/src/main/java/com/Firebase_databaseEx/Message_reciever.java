@@ -29,15 +29,16 @@ public class Message_reciever extends AppCompatActivity {
     FirebaseFirestore db;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_reciever);
-         db = FirebaseFirestore.getInstance();
-         emailnumber = findViewById(R.id.email);
+        db = FirebaseFirestore.getInstance();
+        emailnumber = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
         Button login = findViewById(R.id.logIn);
-        preferences = getSharedPreferences("MYAPP",MODE_PRIVATE);//inatilize preference
+        preferences = getSharedPreferences("MYAPP", MODE_PRIVATE);//inatilize preference
 
         //login button set condition using patternmatches
         login.setOnClickListener(new View.OnClickListener() {
@@ -45,27 +46,38 @@ public class Message_reciever extends AppCompatActivity {
             public void onClick(View v) {
                 String number = emailnumber.getText().toString();
                 if (Pattern.matches("[0-9]{1,}", number)) {
+
                     if (Pattern.matches("[7-9]{1}[0-9]{9}", number)) {
+                      //using please wait dialoge
                         ProgressDialog dialog = new ProgressDialog(Message_reciever.this);
                         dialog.setCancelable(false);     //cancel the loading please wait dialoge
                         dialog.setMessage("Please wait");  // set dialoge
                         dialog.show();
 
-                        db.collection("users").whereEqualTo("number",emailnumber.getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        db.collection("users").whereEqualTo("number", emailnumber.getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-    //set condition of document size is less than one that means document size 0 the querysnapshots going to adduser method and creat new id
-                                if (queryDocumentSnapshots.getDocuments().size()<1){
+                                dialog.dismiss();
+                                //set condition of document size is less than one that means document size 0 the querysnapshots going to adduser method and creat new id
+                                if (queryDocumentSnapshots.getDocuments().size() < 1) {
                                     addUser();
+                                } else {
+                                    for (DocumentSnapshot snapshot :queryDocumentSnapshots.getDocuments()){
+                                       editor = preferences.edit();
+                                       editor.putString("user_id",snapshot.getId());
+                                       editor.commit();
+                                        Intent intent = new Intent(Message_reciever.this, customerinfo.class);
+                                        startActivity(intent);
+
+                                    }
+                                   }
+
                                 }
-                                else {
-                                    Intent intent = new Intent(Message_reciever.this, customerinfo.class);
-                                    startActivity(intent);
-                                }
-                            }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                dialog.dismiss();
+
                             }
                         });
 
@@ -74,7 +86,7 @@ public class Message_reciever extends AppCompatActivity {
                     }
                 }
 
-                else if (Pattern.matches("[[a-z]+[A-Z]+[@#$%&*]+[0-9]+]{8,16}",number)) {
+                else if (Pattern.matches("[a-zA-Z0-9]{2,15}@[gmailredf]{5,7}[.comin]{2,5}", number)) {
 
                     //using progressDialoge becz giving please wait message
                     ProgressDialog dialog = new ProgressDialog(Message_reciever.this);
@@ -82,24 +94,32 @@ public class Message_reciever extends AppCompatActivity {
                     dialog.setMessage("Please wait");
                     dialog.show();
 
-                    db.collection("ownerusers").whereEqualTo("email",emailnumber.getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    db.collection("ownerusers").whereEqualTo("email", emailnumber.getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             dialog.dismiss();
-                            if (queryDocumentSnapshots.getDocuments().size()<1){    //documents means one user
+                             if (queryDocumentSnapshots.getDocuments().size() < 1) {    //documents means one user
                                 addowneruser();
-                            }
-                            else {
-                                for (DocumentSnapshot snapshot:queryDocumentSnapshots.getDocuments()){
- //put hotelId and pass . getting hotelId by snapshot
+                            } else {
+                                for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
+                                    //check condition is all.
+                                    Map<String, Object> data = snapshot.getData();
+                                    if (data.containsKey("phone") && data.containsKey("averagecost") && data.containsKey("about") && data.containsKey("address") && data.containsKey("offers") && data.containsKey("hotelimage") && data.containsKey("firstname")) {
+                                        Intent intent = new Intent(Message_reciever.this, ownerinfo.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(Message_reciever.this, UpdateOwner.class);
+                                        startActivity(intent);
+                                    }
+                                    //put hotelId and pass . getting hotelId by snapshot
                                     editor = preferences.edit();
+                                    editor.putString("user_id",snapshot.getId());
                                     editor.putString("hotel_id", snapshot.getId());
-                                    Log.e("tag",snapshot.getId());
+                                    Log.e("tag", snapshot.getId());
                                     editor.commit();
 
                                 }
-                                Intent intent = new Intent(Message_reciever.this,ownerinfo.class);
-                                startActivity(intent);
+
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -124,12 +144,15 @@ public class Message_reciever extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("firstname", "rakhi1");    //put data with values and key
         user.put("lastname", "kadam");
-        user.put("number",emailnumber.getText().toString() );
-      //using successlistner
+        user.put("number", emailnumber.getText().toString());
+        //using successlistner
         db.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.e("TAG", "onSuccess:" + documentReference.getId());
+                editor = preferences.edit();
+                editor.putString("user_id",documentReference.getId());
+                editor.commit();
                 Intent intent = new Intent(Message_reciever.this, customerinfo.class);
                 startActivity(intent);
 
@@ -144,20 +167,17 @@ public class Message_reciever extends AppCompatActivity {
     }
 
     //method of ownerusers
-    private void addowneruser(){
+    private void addowneruser() {
         Map<String, Object> ownerusers = new HashMap<>();
         ownerusers.put("firstname", "rakhi1");    //put data with values and key
         ownerusers.put("number", "99999999");
         ownerusers.put("email", emailnumber.getText().toString());
-       /* editor = preferences.edit();
-        editor.putString("email",emailnumber.getText().toString());
-        editor.commit();
-       */ db.collection("ownerusers").add(ownerusers).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("ownerusers").add(ownerusers).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.e("TAG","OnSuccess:"+documentReference.getId());
+                Log.e("TAG", "OnSuccess:" + documentReference.getId());
                 editor = preferences.edit();    //first this method called . this is inilize of editior
-                editor.putString("hotel_id",documentReference.getId());
+                editor.putString("hotel_id", documentReference.getId());
                 editor.commit();
 
                 Intent intent = new Intent(Message_reciever.this, UpdateOwner.class);

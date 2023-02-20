@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ReviewCustomer">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/addreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Review"
+        android:visibility="visible"
+        ></Button>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reviewreycler"
+        android:visibility="visible"
+        android:layout_below="@+id/addreview"
+        ></androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linearreview"
+        android:visibility="gone"
+        >
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:hint="name"
+        android:layout_marginBottom="20dp"
+        ></EditText>
+ <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/profile"
+        android:hint="profile"
+        android:layout_marginBottom="20dp"
+        ></EditText>
+ <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment"
+        android:hint="comment"
+        android:layout_marginBottom="20dp"
+        ></EditText>
+        <Button
+            android:id="@+id/savereview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="save"
+            ></Button>
+    </LinearLayout>
+ </RelativeLayout>

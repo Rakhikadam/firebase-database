@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
        }
       */
-        List<hotellist>list = new ArrayList<>();
+        List<listhotel>list = new ArrayList<>();
         db.collection("hotel").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                        // List<hotellist>list = new ArrayList<>();
                         // String name = documentSnapshot.getData().get("name").toString();
-                        hotellist hotel = new hotellist(documentSnapshot.getData().get("name").toString(),documentSnapshot.getData().get("offer").toString(),documentSnapshot.getData().get("image").toString());
+                        listhotel hotel = new listhotel(documentSnapshot.getData().get("name").toString(),documentSnapshot.getData().get("offer").toString(),documentSnapshot.getData().get("image").toString());
                         list.add(hotel);
 
                     }
@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     class HotelAdpter extends RecyclerView.Adapter<HotelAdpter.CustomViewHolder>{
-        List<hotellist> list;
+        List<listhotel> list;
 
-        public HotelAdpter(List<hotellist> list) {
+        public HotelAdpter(List<listhotel> list) {
             this.list = list;
 
         }

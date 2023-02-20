@@ -44,14 +44,13 @@ public class UpdateOwner extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Map<String,Object> data  = documentSnapshot.getData();
-                        data.put("firstame",name.getText().toString());
+                        data.put("firstname",name.getText().toString());
                         data.put("hotelimage",hotelimage.getText().toString());
                         data.put("offers",offers.getText().toString());
                         data.put("address",address.getText().toString());
                         data.put("about",about.getText().toString());
                         data.put("phone",phone.getText().toString());
                         data.put("averagecost",averagecost.getText().toString());
-                  //      data.put("hotelimage",preferences.getString("number","")).toString();
                         Log.e("TAG", "onSuccess: "+data.toString());
                         db.collection("ownerusers").document(preferences.getString("hotel_id","")).set(data);
                     }

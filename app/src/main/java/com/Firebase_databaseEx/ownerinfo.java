@@ -20,6 +20,7 @@ public class ownerinfo extends AppCompatActivity {
         Button menulist = findViewById(R.id.menu);
         Button photo = findViewById(R.id.photo);
         Button facilites = findViewById(R.id.facilites);
+        Button review = findViewById(R.id.review);
         DrawerLayout drawer = findViewById(R.id.drawer);
         Toolbar tool = findViewById(R.id.tool);
 
@@ -57,6 +58,16 @@ public class ownerinfo extends AppCompatActivity {
 
             }
         });
+        review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = ownerinfo.this.getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.framemenu,new ReviewOwner());
+                transaction.commit();
+
+            }
+        });
+
 
     }
 }

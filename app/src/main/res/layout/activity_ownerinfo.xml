@@ -75,6 +75,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Facilites"></Button>
+        <Button
+                android:id="@+id/review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Review"></Button>
         </LinearLayout>
 
     </RelativeLayout>

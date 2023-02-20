@@ -103,12 +103,12 @@ public class PhotoOwner extends Fragment {
 
                 Map<String,Object> photo = new HashMap<>();
                 photo.put("image",text.getText().toString());    //put data with values and key
-                photo.put("hote_id",preferences.getString("hotel_id",""));
+                photo.put("hotel_id",preferences.getString("hotel_id",""));
                 db.collection("photo").add(photo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.e("TAG","onSuccess:"+documentReference.getId());
-                        getMenu();
+                        getMenu();  // call method
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
